@@ -16,5 +16,8 @@ namespace paujo.FirstGame {
       public static int EntityFwd = 130;
 
     }
+
   }
+
+  public enum Direction : byte { North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest };
 }

@@ -44,7 +44,9 @@ namespace paujo.FirstGame {
     
     protected override void Initialize() {
       base.Initialize();
-      Entities.Add(new PlayerEntity(this));
+      PlayerEntity player = new PlayerEntity(this);
+      player.Initialize();
+      Entities.Add(player);
     }
 
     
