@@ -1,0 +1,73 @@
+{
+  "TextureKey": "girlFarmer",
+  "FrameWidth": 32,
+  "FrameHeight": 48,
+  "Animations": [
+    {
+      "Frames": [
+        0,
+        1,
+        2,
+        1
+      ],
+      "FrameLengths": [
+        200.0,
+        200.0,
+        200.0,
+        200.0
+      ],
+      "Repeatable": true
+    },
+    {
+      "Frames": [
+        3,
+        4,
+        5,
+        4
+      ],
+      "FrameLengths": [
+        200.0,
+        200.0,
+        200.0,
+        200.0
+      ],
+      "Repeatable": true
+    },
+    {
+      "Frames": [
+        6,
+        7,
+        8,
+        7
+      ],
+      "FrameLengths": [
+        200.0,
+        200.0,
+        200.0,
+        200.0
+      ],
+      "Repeatable": true
+    },
+    {
+      "Frames": [
+        9,
+        10,
+        11,
+        10
+      ],
+      "FrameLengths": [
+        200.0,
+        200.0,
+        200.0,
+        200.0
+      ],
+      "Repeatable": true
+    }
+  ],
+  "AnimationLookup": {
+    "girlDown": 0,
+    "girlLeft": 1,
+    "girlRight": 2,
+    "girlUp": 3
+  }
+}
