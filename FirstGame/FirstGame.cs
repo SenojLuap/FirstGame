@@ -47,6 +47,7 @@ namespace paujo.FirstGame {
       PlayerEntity player = new PlayerEntity(this);
       player.Initialize();
       Entities.Add(player);
+      Primitives.Initialize(this);
     }
 
     
@@ -123,7 +124,16 @@ namespace paujo.FirstGame {
       Renderer.Reset();
       foreach (var entity in Entities) {
 	entity.Draw(gameTime, Renderer);
+	PlayerEntity player = entity as PlayerEntity;
+	if (player != null) {
+	  Point playerPos = new Point((int)player.Pos.X, (int)player.Pos.Y);
+	  
+	  Renderer.AddJob(new RectRenderJob(playerPos.X, playerPos.Y, player.TileSheet.FrameWidth, player.TileSheet.FrameHeight), 0); 
+	}
       }
+
+      Point p0 = new Point(100, 100);
+      Point p1 = new Point(150, 150);
 
       Renderer.Draw();
       base.Draw(gameTime);
