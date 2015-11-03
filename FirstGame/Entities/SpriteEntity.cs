@@ -8,7 +8,7 @@ namespace paujo.FirstGame {
     
     public Vector2 Pos {
       get; set;
-    } = new Vector2(0.0f, 0.0f);
+    } = new Vector2(0f, 0f);
 
 
     public TileSheet TileSheet {
@@ -42,7 +42,7 @@ namespace paujo.FirstGame {
 
     public override void Draw(GameTime gameTime, Renderer renderer) {
       if (DrawHelper != null) {
-	DrawHelper.Pos = Pos;
+	DrawHelper.Pos = Misc.Vector2ToPoint(Pos);
 	DrawHelper.Update(gameTime);
 	renderer.AddJob(DrawHelper.GetRenderJob(), Layer);
       }
