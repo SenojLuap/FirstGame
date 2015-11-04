@@ -24,12 +24,16 @@ namespace paujo.FirstGame {
       get; set;
     }
 
-    public int Frame {
+    public virtual int Frame {
       get; set;
     }
 
+    public int DepthShift {
+      get; set;
+    } = 0;
 
-    public SpriteEntity(Game game, TileSheet tileSheet, int frame) : base(game) {
+
+    public SpriteEntity(FirstGame game, TileSheet tileSheet, int frame) : base(game) {
       TileSheet = tileSheet;
       Frame = frame;
     }
@@ -42,7 +46,9 @@ namespace paujo.FirstGame {
 
     public override void Draw(GameTime gameTime, Renderer renderer) {
       if (DrawHelper != null) {
-	DrawHelper.Pos = Misc.Vector2ToPoint(Pos);
+	DrawHelper.Pos = Misc.Vector2ToPoint(Pos) - new Point(TileSheet.FrameWidth / 2, TileSheet.FrameHeight);
+	DrawHelper.Depth = (Pos.Y - DepthShift) / (float)Game.Resolution.Y;
+	Misc.pln("depth: " + DrawHelper.Depth);
 	DrawHelper.Update(gameTime);
 	renderer.AddJob(DrawHelper.GetRenderJob(), Layer);
       }

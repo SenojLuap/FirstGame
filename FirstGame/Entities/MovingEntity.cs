@@ -24,7 +24,7 @@ namespace paujo.FirstGame {
       get; set;
     }
 
-    public MovingEntity(Game game, TileSheet tileSheet = null, Direction? facing = null) : base(game, tileSheet, -1) {
+    public MovingEntity(FirstGame game, TileSheet tileSheet = null, Direction? facing = null) : base(game, tileSheet, -1) {
       StationaryFrames = new Dictionary<Direction, int>();
       MovingAnimations = new Dictionary<Direction, string>();
       if (facing == null) facing = Direction.South;

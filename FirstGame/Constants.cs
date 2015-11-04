@@ -17,6 +17,11 @@ namespace paujo.FirstGame {
 
     }
 
+    public class Application {
+      public static int RenderWidth = 256;
+      public static int RenderHeight = 224;
+    }
+
   }
 
   public enum Direction : byte { North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest };

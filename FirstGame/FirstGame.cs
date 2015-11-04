@@ -12,6 +12,7 @@ using paujo.GameUtility;
 namespace paujo.FirstGame {
   public class FirstGame : Game {
     GraphicsDeviceManager graphics;
+    RenderTarget2D renderTarget;
 
     public Dictionary<string, TileSheet> TileSheets {
       get; set;
@@ -28,9 +29,23 @@ namespace paujo.FirstGame {
     public Renderer Renderer {
       get; set;
     }
+
+    public Point Resolution {
+      get {
+	return new Point(Convert.ToInt32(Constants.Application.RenderWidth * RenderScale),
+			 Convert.ToInt32(Constants.Application.RenderHeight * RenderScale));
+      }
+    }
+
+    public float RenderScale {
+      get; set;
+    } = 2f;
     
     public FirstGame() {
       graphics = new GraphicsDeviceManager(this);
+      graphics.PreferredBackBufferWidth = Constants.Application.RenderWidth * 2;
+      graphics.PreferredBackBufferHeight = Constants.Application.RenderHeight * 2;
+      graphics.ApplyChanges();
       TileSheets = new Dictionary<string, TileSheet>();
       Content.RootDirectory = "Content";
 
@@ -47,7 +62,14 @@ namespace paujo.FirstGame {
       PlayerEntity player = new PlayerEntity(this);
       player.Initialize();
       Entities.Add(player);
+
+      Plant plant = new Plant(this);
+      plant.Initialize();
+      Entities.Add(plant);
+      
       Primitives.Initialize(this);
+      renderTarget = new RenderTarget2D(GraphicsDevice, Constants.Application.RenderWidth, Constants.Application.RenderHeight,
+					false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
     }
 
     
@@ -93,19 +115,11 @@ namespace paujo.FirstGame {
     }
 
     
-    /// <summary>
-    /// UnloadContent will be called once per game and is the place to unload
-    /// game-specific content.
-    /// </summary>
     protected override void UnloadContent() {
       // TODO: Unload any non ContentManager content here
     }
     
-    /// <summary>
-    /// Allows the game to run logic such as updating the world,
-    /// checking for collisions, gathering input, and playing audio.
-    /// </summary>
-    /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
     protected override void Update(GameTime gameTime) {
       if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 	Exit();
@@ -113,20 +127,27 @@ namespace paujo.FirstGame {
 	entity.Update(gameTime);
       base.Update(gameTime);
     }
+
     
-    /// <summary>
-    /// This is called when the game should draw itself.
-    /// </summary>
-    /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Draw(GameTime gameTime) {
+      GraphicsDevice.SetRenderTarget(renderTarget);
       GraphicsDevice.Clear(Color.CornflowerBlue);
 
       Renderer.Reset();
       foreach (var entity in Entities) {
 	entity.Draw(gameTime, Renderer);
       }
-
       Renderer.Draw();
+      
+      GraphicsDevice.SetRenderTarget(null);
+
+      SpriteBatch spriteBatch = new SpriteBatch(GraphicsDevice);
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+      spriteBatch.Draw(renderTarget, new Rectangle(0, 0, Constants.Application.RenderWidth * 2,
+						   Constants.Application.RenderHeight * 2), Color.White);
+      spriteBatch.End();
+
+      
       base.Draw(gameTime);
     }
   }

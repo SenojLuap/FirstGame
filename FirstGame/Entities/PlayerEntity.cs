@@ -7,16 +7,20 @@ namespace paujo.FirstGame {
   public class PlayerEntity : MovingEntity {
 
     public float PlayerSpeed {
-      get; set;
-    } = 150.0f;
-
-
-    public PlayerEntity(Game game) : base(game, null) {
-      Pos = new Vector2(20f, 20f);
-      FirstGame fGame = game as FirstGame;
-      if (fGame != null) {
-	TileSheet = fGame.TileSheets["girlFarmer"];
+      get {
+	GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+	if (gamePadState.Buttons.X == ButtonState.Pressed)
+	  return 300f;
+	if (gamePadState.Buttons.B == ButtonState.Pressed)
+	  return 55f;
+	return 150f;
       }
+    }
+
+
+    public PlayerEntity(FirstGame game) : base(game, null) {
+      Pos = new Vector2(20f, 20f);
+      TileSheet = Game.TileSheets["girlFarmer"];
     }
 
 

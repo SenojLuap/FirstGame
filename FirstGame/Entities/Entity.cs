@@ -5,11 +5,11 @@ using paujo.GameUtility;
 namespace paujo.FirstGame {
   public class Entity {
 
-    public Game Game {
+    public FirstGame Game {
       get; set;
     }
 
-    public Entity(Game game) {
+    public Entity(FirstGame game) {
       Game = game;
     }
     public virtual void Update(GameTime gameTime) { }
