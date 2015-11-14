@@ -59,17 +59,14 @@ namespace paujo.FirstGame {
     
     protected override void Initialize() {
       base.Initialize();
-      PlayerEntity player = new PlayerEntity(this);
-      player.Initialize();
-      Entities.Add(player);
-
-      Plant plant = new Plant(this);
-      plant.Initialize();
-      Entities.Add(plant);
       
       Primitives.Initialize(this);
-      renderTarget = new RenderTarget2D(GraphicsDevice, Constants.Application.RenderWidth, Constants.Application.RenderHeight,
-					false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
+      renderTarget = new RenderTarget2D(GraphicsDevice,
+					Constants.Application.RenderWidth,
+					Constants.Application.RenderHeight,
+					false,
+					GraphicsDevice.PresentationParameters.BackBufferFormat,
+					DepthFormat.Depth24);
     }
 
     
@@ -123,8 +120,7 @@ namespace paujo.FirstGame {
     protected override void Update(GameTime gameTime) {
       if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 	Exit();
-      foreach (var entity in Entities)
-	entity.Update(gameTime);
+
       base.Update(gameTime);
     }
 
@@ -134,9 +130,7 @@ namespace paujo.FirstGame {
       GraphicsDevice.Clear(Color.CornflowerBlue);
 
       Renderer.Reset();
-      foreach (var entity in Entities) {
-	entity.Draw(gameTime, Renderer);
-      }
+
       Renderer.Draw();
       
       GraphicsDevice.SetRenderTarget(null);

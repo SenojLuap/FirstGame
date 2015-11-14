@@ -54,14 +54,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\MovingEntity.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="FirstGame.cs" />
-    <Compile Include="Entities\PlayerEntity.cs" />
-    <Compile Include="Plant.cs" />
+    <Compile Include="IComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\SpriteEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GameUtility, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
