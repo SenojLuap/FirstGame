@@ -3,7 +3,7 @@
 namespace paujo.FirstGame {
   public class Entity : IComponent {
 
-    public static long EntityComponentType = 1;
+    public static long EntityComponentType = 0x1;
     
     public virtual long ComponentType {
       get {
@@ -45,6 +45,19 @@ namespace paujo.FirstGame {
 	Components.Remove(oldComponent);
       }
     }
+
     
+    public bool HasComponents(long componentTypes) {
+      return ((ComponentMask & componentTypes) == componentTypes);
+    }
+    
+
+    public IComponent GetComponent(long componentType) {
+      foreach (var cmp in Components) {
+	if (cmp.ComponentType == componentType)
+	  return cmp;
+      }
+      return null;
+    }
   }
 }
