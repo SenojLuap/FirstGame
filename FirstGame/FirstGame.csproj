@@ -53,6 +53,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CollisionBound.cs" />
     <Compile Include="Components\AnimationState.cs" />
     <Compile Include="Components\Facing.cs" />
     <Compile Include="Components\Position.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="IComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorldEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GameUtility, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
