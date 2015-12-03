@@ -8,15 +8,25 @@ namespace paujo.FirstGame {
   public abstract class WorldEntity {
 
     public Point Pos {
+      get {
+	return RealPos.ToPoint();
+      }
+      set {
+	RealPos = Misc.PointToVector2(value);
+      }
+    }
+
+    public Vector2 RealPos {
       get; set;
     }
     
 
-    abstract public void GameTick(double deltaTime);
+    abstract public void GameTick(FirstGame game, double deltaTime);
 
 
-    abstract public void Draw(FirstGame game, double deltaTime);
-
+    virtual public IGraphicsPrimitive GetPrim(FirstGame game) {
+      return InvisiblePrimitive.Instance;
+    }
 
     public ICollisionBound GetFastBound() {
       return new CircleBound(new Circle(Pos, 1));;
