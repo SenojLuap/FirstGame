@@ -12,6 +12,7 @@ namespace paujo.FirstGame {
 				    depth: (float)Pos.Y / (float)Constants.Application.RenderHeight);
     }
 
+
     /**
      * World Entity
      */
@@ -39,7 +40,5 @@ namespace paujo.FirstGame {
 	newMotion.X = 1f;
       Motion = newMotion;
     }
-
-    
   }
 }

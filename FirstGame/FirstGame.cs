@@ -30,6 +30,10 @@ namespace paujo.FirstGame {
       get; set;
     }
 
+    public Dictionary<int, Dictionary<int, List<WorldEntity>>> EntityPos {
+      get; set;
+    }
+
     public Point Resolution {
       get {
 	return new Point(Convert.ToInt32(Constants.Application.RenderWidth * RenderScale),
@@ -70,6 +74,8 @@ namespace paujo.FirstGame {
       Player = new Player(this);
       Player.Pos = new Point(Constants.Application.RenderWidth / 2,
 			     Constants.Application.RenderHeight / 2);
+
+      EntityPos = new Dictionary<int, Dictionary<int, List<WorldEntity>>>();
     }
 
     
@@ -117,6 +123,63 @@ namespace paujo.FirstGame {
     
     protected override void UnloadContent() {
       // TODO: Unload any non ContentManager content here
+    }
+
+
+    /**
+     * Manage Entity List
+     */
+    public bool PickUp(WorldEntity entity) {
+      Point entPos = entity.GridPos;
+      if (EntityPos.ContainsKey(entPos.X)) {
+	Dictionary<int, List<WorldEntity>> yMap = EntityPos[entPos.X];
+	if (yMap.ContainsKey(entPos.Y)) {
+	  List<WorldEntity> entList = yMap[entPos.Y];
+	  if (entList.Contains(entity)) {
+	    entList.Remove(entity);
+	    return true;
+	  }
+	}
+      }
+      return false;
+    }
+
+
+    public void PutDown(WorldEntity entity) {
+      Dictionary<int, List<WorldEntity>> yMap;
+      if (!EntityPos.ContainsKey(entity.Pos.X)) {
+	yMap = new Dictionary<int, List<WorldEntity>>();
+	EntityPos.Add(entity.Pos.X, yMap);
+      } else {
+	yMap = EntityPos[entity.Pos.X];
+      }
+      List<WorldEntity> list;
+      if (!yMap.ContainsKey(entity.Pos.Y)) {
+	list = new List<WorldEntity>();
+	yMap.Add(entity.Pos.Y, list);
+      } else {
+	list = yMap[entity.Pos.Y];
+      }
+      list.Add(entity);
+    }
+
+    
+    public List<WorldEntity> GetEntitiesAtGridPos(Point gridPos) {
+      if (EntityPos.ContainsKey(gridPos.X)) {
+	Dictionary<int, List<WorldEntity>> yMap = EntityPos[gridPos.X];
+	if (yMap.ContainsKey(gridPos.Y)) {
+	  List<WorldEntity> list = yMap[gridPos.Y];
+	  return list;
+	}
+      }
+      return new List<WorldEntity>();
+    }
+
+    
+    public WorldEntity GetEntityAtGridPos(Point gridPos) {
+      List<WorldEntity> list = GetEntitiesAtGridPos(gridPos);
+      if (list.Count > 0) return list[0];
+      return null;
     }
     
 

@@ -11,6 +11,23 @@ namespace paujo.FirstGame {
       get; set;
     }
 
+    
+    public Point GridPos {
+      get {
+	int x = Pos.X / Constants.World.GridCellWidth;
+	int y = Pos.Y / Constants.World.GridCellHeight;
+	return new Point(x, y);
+      }
+      set {
+	int x = value.X * Constants.World.GridCellWidth;
+	x += Constants.World.GridCellWidth / 2;
+	int y = value.Y * Constants.World.GridCellHeight;
+	y += Constants.World.GridCellHeight / 2;
+	Pos = new Point(x, y);
+      }
+    }
+
+
     public Point Pos {
       get {
 	return RealPos.ToPoint();
@@ -42,6 +59,11 @@ namespace paujo.FirstGame {
       List<ICollisionBound> res = new List<ICollisionBound>();
       res.Add(GetFastBound());
       return res;
+    }
+
+
+    virtual public void Activate(Player player) {
+      // Do Nothing
     }
   }
 }

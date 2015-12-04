@@ -22,6 +22,11 @@ namespace paujo.FirstGame {
       public static int RenderHeight = 224;
     }
 
+    public class World {
+      public static int GridCellWidth = 32;
+      public static int GridCellHeight = 32;
+    }
+
   }
 
   public enum Direction : byte { North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest };
