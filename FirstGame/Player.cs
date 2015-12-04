@@ -26,15 +26,17 @@ namespace paujo.FirstGame {
      * World Entity
      */
     override public void GameTick(FirstGame game, double deltaTime) {
+      bool wasMoving = IsMoving();
       UpdateMotion(game);
-      Move(deltaTime);
-
+      Move(game, deltaTime);
+      
       Direction oldFacing = Facing;
       UpdateFacing();
-      if (Facing != oldFacing) UpdateGraphics(game);
+      if ((Facing != oldFacing) || (wasMoving != IsMoving())) UpdateGraphics(game);
 
-      SpriteHelper helper = DrawHelper as SpriteHelper;
+      TileSheetHelper helper = DrawHelper as TileSheetHelper;
       if (helper != null) {
+	helper.Update(deltaTime);
 	helper.Pos = Pos;
 	helper.Depth = (float)Pos.Y / (float)game.Resolution.Y;
       }
@@ -67,14 +69,16 @@ namespace paujo.FirstGame {
 
 
     public void UpdateGraphics(FirstGame game) {
+      TileSheet tileSheet = game.TileSheets["girlFarmer"];
+      Misc.pln("Update Graphics");
       if (Facing == Direction.South)
-	DrawHelper = new SpriteHelper(game.TileSheets["girlFarmer"], 1);
+	DrawHelper = IsMoving() ? tileSheet.GetAnimationHelper("girlDown") : tileSheet.GetSpriteHelper(1);
       else if (Facing == Direction.West)
-	DrawHelper = new SpriteHelper(game.TileSheets["girlFarmer"], 4);
+	DrawHelper = IsMoving() ? tileSheet.GetAnimationHelper("girlLeft") : tileSheet.GetSpriteHelper(4);
       else if (Facing == Direction.East)
-	DrawHelper = new SpriteHelper(game.TileSheets["girlFarmer"], 7);
+	DrawHelper = IsMoving() ? tileSheet.GetAnimationHelper("girlRight") : tileSheet.GetSpriteHelper(7);
       else if (Facing == Direction.North)
-	DrawHelper = new SpriteHelper(game.TileSheets["girlFarmer"], 10);
+	DrawHelper = IsMoving() ? tileSheet.GetAnimationHelper("girlUp") : tileSheet.GetSpriteHelper(10);
     }
   }
 }

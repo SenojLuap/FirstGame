@@ -188,7 +188,6 @@ namespace paujo.FirstGame {
 	Exit();
 
       Player.GameTick(this, gameTime.ElapsedGameTime.TotalMilliseconds);
-      Misc.pln("" + Player.Pos);
 
       base.Update(gameTime);
     }
@@ -203,8 +202,6 @@ namespace paujo.FirstGame {
       //Renderer.AddJob(Player.GetRenderJob(this), 1);
       //Misc.pln("" + Player.GetRenderJob(this));
       IRenderJob job = Player.GetRenderJob(this);
-      TileSheetRenderJob tJob = (TileSheetRenderJob)job;
-      Misc.pln("" + tJob.Pos + ": " + tJob.Depth + ": " + tJob.TileSheet);
       Renderer.AddJob(job, 1);
       
       Renderer.Draw();
