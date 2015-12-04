@@ -22,11 +22,11 @@ namespace paujo.FirstGame {
       get; set;
     }
 
-    public List<Entity> Entities {
+    public Renderer Renderer {
       get; set;
     }
 
-    public Renderer Renderer {
+    public Player Player {
       get; set;
     }
 
@@ -52,7 +52,6 @@ namespace paujo.FirstGame {
       TileContent = new ContentManager(Services);
       TileContent.RootDirectory = Constants.Paths.TileDirectory;
 
-      Entities = new List<Entity>();
       Renderer = new Renderer(this);
     }
     
@@ -67,6 +66,10 @@ namespace paujo.FirstGame {
 					false,
 					GraphicsDevice.PresentationParameters.BackBufferFormat,
 					DepthFormat.Depth24);
+
+      Player = new Player(this);
+      Player.Pos = new Point(Constants.Application.RenderWidth / 2,
+			     Constants.Application.RenderHeight / 2);
     }
 
     
@@ -121,6 +124,9 @@ namespace paujo.FirstGame {
       if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 	Exit();
 
+      Player.GameTick(this, gameTime.ElapsedGameTime.TotalMilliseconds);
+      Misc.pln("" + Player.Pos);
+
       base.Update(gameTime);
     }
 
@@ -131,6 +137,13 @@ namespace paujo.FirstGame {
 
       Renderer.Reset();
 
+      //Renderer.AddJob(Player.GetRenderJob(this), 1);
+      //Misc.pln("" + Player.GetRenderJob(this));
+      IRenderJob job = Player.GetRenderJob(this);
+      TileSheetRenderJob tJob = (TileSheetRenderJob)job;
+      Misc.pln("" + tJob.Pos + ": " + tJob.Depth + ": " + tJob.TileSheet);
+      Renderer.AddJob(job, 1);
+      
       Renderer.Draw();
       
       GraphicsDevice.SetRenderTarget(null);

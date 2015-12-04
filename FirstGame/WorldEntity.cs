@@ -7,6 +7,10 @@ using paujo.GameUtility;
 namespace paujo.FirstGame {
   public abstract class WorldEntity {
 
+    public IDrawHelper DrawHelper {
+      get; set;
+    }
+
     public Point Pos {
       get {
 	return RealPos.ToPoint();
@@ -24,8 +28,9 @@ namespace paujo.FirstGame {
     abstract public void GameTick(FirstGame game, double deltaTime);
 
 
-    virtual public IGraphicsPrimitive GetPrim(FirstGame game) {
-      return InvisiblePrimitive.Instance;
+    virtual public IRenderJob GetRenderJob(FirstGame game) {
+      if (DrawHelper != null) return DrawHelper.GetRenderJob();
+      return InvisibleRenderJob.Instance();
     }
 
     public ICollisionBound GetFastBound() {
