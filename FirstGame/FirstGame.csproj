@@ -54,23 +54,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CollisionBound.cs" />
-    <Compile Include="Components\AnimationState.cs" />
-    <Compile Include="Components\Facing.cs" />
-    <Compile Include="Components\Position.cs" />
-    <Compile Include="Components\Scale.cs" />
-    <Compile Include="Components\Sprite.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Entity.cs" />
     <Compile Include="FirstGame.cs" />
-    <Compile Include="IComponent.cs" />
-    <Compile Include="IGraphicsPrimitive.cs" />
-    <Compile Include="InvisiblePrimitive.cs" />
     <Compile Include="MovingEntity.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="PrimitiveList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpritePrimitive.cs" />
     <Compile Include="WorldEntity.cs" />
   </ItemGroup>
   <ItemGroup>

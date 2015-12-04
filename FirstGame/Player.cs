@@ -6,11 +6,8 @@ using paujo.GameUtility;
 namespace paujo.FirstGame {
   public class Player : MovingEntity {
 
-    public IGraphicsPrimitive cachedPrim;
-
     public Player(FirstGame game) : base() {
       Speed = 50;
-      cachedPrim = null;
       DrawHelper = new SpriteHelper(game.TileSheets["girlFarmer"], 1, Pos,
 				    depth: (float)Pos.Y / (float)Constants.Application.RenderHeight);
     }
@@ -41,7 +38,6 @@ namespace paujo.FirstGame {
       else if (state.IsKeyDown(Keys.Right))
 	newMotion.X = 1f;
       Motion = newMotion;
-      cachedPrim = null;
     }
 
     
