@@ -27,12 +27,12 @@ namespace paujo.FirstGame {
      */
     override public void GameTick(FirstGame game, double deltaTime) {
       bool wasMoving = IsMoving();
-      UpdateMotion(game);
+      HandleInputs(game);
       Move(game, deltaTime);
       
       Direction oldFacing = Facing;
       UpdateFacing();
-      if ((Facing != oldFacing) || (wasMoving != IsMoving())) UpdateGraphics(game);
+      if ((Facing != oldFacing) || (wasMoving != IsMoving())) InvalidateGraphics(game);
 
       TileSheetHelper helper = DrawHelper as TileSheetHelper;
       if (helper != null) {
@@ -40,6 +40,7 @@ namespace paujo.FirstGame {
 	helper.Pos = Pos;
 	helper.Depth = (float)Pos.Y / (float)game.Resolution.Y;
       }
+
     }
     
 
@@ -68,9 +69,8 @@ namespace paujo.FirstGame {
     }
 
 
-    public void UpdateGraphics(FirstGame game) {
+    override public void InvalidateGraphics(FirstGame game) {
       TileSheet tileSheet = game.TileSheets["girlFarmer"];
-      Misc.pln("Update Graphics");
       if (Facing == Direction.South)
 	DrawHelper = IsMoving() ? tileSheet.GetAnimationHelper("girlDown") : tileSheet.GetSpriteHelper(1);
       else if (Facing == Direction.West)
@@ -79,6 +79,31 @@ namespace paujo.FirstGame {
 	DrawHelper = IsMoving() ? tileSheet.GetAnimationHelper("girlRight") : tileSheet.GetSpriteHelper(7);
       else if (Facing == Direction.North)
 	DrawHelper = IsMoving() ? tileSheet.GetAnimationHelper("girlUp") : tileSheet.GetSpriteHelper(10);
+    }
+
+
+    public void HandleInputs(FirstGame game) {
+      UpdateMotion(game);
+      
+      if (game.AdvKeyboard.GetKeyState(Keys.E) == AdvancedKeyState.Pressed) {
+	Point activateTarget = GetActivateTarget();
+	WorldEntity ent = game.GetEntityAtGridPos(activateTarget);
+	if (ent != null) ent.Activate(this);
+      }
+    }
+
+    
+    public Point GetActivateTarget() {
+      Point res = GridPos;
+      if (Facing == Direction.East)
+	res.X++;
+      if (Facing == Direction.West)
+	res.X--;
+      if (Facing == Direction.North)
+	res.Y--;
+      if (Facing == Direction.South)
+	res.Y++;
+      return res;
     }
   }
 }

@@ -26,11 +26,15 @@ namespace paujo.FirstGame {
       get; set;
     }
 
-    public Player Player {
+    public Dictionary<int, Dictionary<int, List<WorldEntity>>> EntityPos {
       get; set;
     }
 
-    public Dictionary<int, Dictionary<int, List<WorldEntity>>> EntityPos {
+    public List<WorldEntity> Entities {
+      get; set;
+    }
+
+    public AdvancedKeyboard AdvKeyboard {
       get; set;
     }
 
@@ -71,11 +75,23 @@ namespace paujo.FirstGame {
 					GraphicsDevice.PresentationParameters.BackBufferFormat,
 					DepthFormat.Depth24);
 
-      Player = new Player(this);
-      Player.Pos = new Point(Constants.Application.RenderWidth / 2,
-			     Constants.Application.RenderHeight / 2);
-
       EntityPos = new Dictionary<int, Dictionary<int, List<WorldEntity>>>();
+      Entities = new List<WorldEntity>();
+
+      Player player = new Player(this);
+      player.Pos = new Point(Constants.Application.RenderWidth / 2,
+			     Constants.Application.RenderHeight / 2);
+      Entities.Add(player);
+      PutDown(player);
+
+      Chest chest = new Chest(this);
+      chest.GridPos = new Point(3, 3);
+      chest.InvalidateGraphics(this);
+      Entities.Add(chest);
+      PutDown(chest);
+      
+
+      AdvKeyboard = new AdvancedKeyboard();
     }
 
     
@@ -147,18 +163,18 @@ namespace paujo.FirstGame {
 
     public void PutDown(WorldEntity entity) {
       Dictionary<int, List<WorldEntity>> yMap;
-      if (!EntityPos.ContainsKey(entity.Pos.X)) {
+      if (!EntityPos.ContainsKey(entity.GridPos.X)) {
 	yMap = new Dictionary<int, List<WorldEntity>>();
-	EntityPos.Add(entity.Pos.X, yMap);
+	EntityPos.Add(entity.GridPos.X, yMap);
       } else {
-	yMap = EntityPos[entity.Pos.X];
+	yMap = EntityPos[entity.GridPos.X];
       }
       List<WorldEntity> list;
-      if (!yMap.ContainsKey(entity.Pos.Y)) {
+      if (!yMap.ContainsKey(entity.GridPos.Y)) {
 	list = new List<WorldEntity>();
-	yMap.Add(entity.Pos.Y, list);
+	yMap.Add(entity.GridPos.Y, list);
       } else {
-	list = yMap[entity.Pos.Y];
+	list = yMap[entity.GridPos.Y];
       }
       list.Add(entity);
     }
@@ -184,10 +200,14 @@ namespace paujo.FirstGame {
     
 
     protected override void Update(GameTime gameTime) {
-      if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-	Exit();
+      AdvKeyboard.Update(Keyboard.GetState());
 
-      Player.GameTick(this, gameTime.ElapsedGameTime.TotalMilliseconds);
+      if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+	  AdvKeyboard.IsKeyDown(Keys.Escape))
+	Exit();
+      
+      foreach (var entity in Entities)
+	entity.GameTick(this, gameTime.ElapsedGameTime.TotalMilliseconds);
 
       base.Update(gameTime);
     }
@@ -199,10 +219,8 @@ namespace paujo.FirstGame {
 
       Renderer.Reset();
 
-      //Renderer.AddJob(Player.GetRenderJob(this), 1);
-      //Misc.pln("" + Player.GetRenderJob(this));
-      IRenderJob job = Player.GetRenderJob(this);
-      Renderer.AddJob(job, 1);
+      foreach (var entity in Entities)
+	Renderer.AddJob(entity.GetRenderJob(this), 1);
       
       Renderer.Draw();
       

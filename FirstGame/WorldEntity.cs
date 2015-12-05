@@ -65,5 +65,10 @@ namespace paujo.FirstGame {
     virtual public void Activate(Player player) {
       // Do Nothing
     }
+
+
+    virtual public void InvalidateGraphics(FirstGame game) {
+      // Do Nothing
+    }
   }
 }
