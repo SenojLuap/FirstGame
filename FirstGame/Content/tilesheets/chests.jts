@@ -3,5 +3,10 @@
   "FrameWidth": 32,
   "FrameHeight": 32,
   "Animations": [],
-  "AnimationLookup": {}
+  "AnimationLookup": {},
+  "FrameOffsets": {},
+  "DefaultFrameOffset": {
+    "X": 16,
+    "Y": 24
+  }
 }

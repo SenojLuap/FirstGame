@@ -69,5 +69,10 @@
     "girlLeft": 1,
     "girlRight": 2,
     "girlUp": 3
+  },
+  "FrameOffsets": {},
+  "DefaultFrameOffset": {
+    "X": 16,
+    "Y": 45
   }
 }

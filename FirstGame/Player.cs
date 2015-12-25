@@ -38,7 +38,7 @@ namespace paujo.FirstGame {
       if (helper != null) {
 	helper.Update(deltaTime);
 	helper.Pos = Pos;
-	helper.Depth = (float)Pos.Y / (float)game.Resolution.Y;
+	helper.Depth = Math.Min(1.0f, (float)Pos.Y / (float)Constants.Application.RenderHeight);
       }
 
     }
@@ -82,6 +82,9 @@ namespace paujo.FirstGame {
     }
 
 
+    /**
+     * Handle input from keyboard.
+     */
     public void HandleInputs(FirstGame game) {
       UpdateMotion(game);
       
@@ -93,6 +96,9 @@ namespace paujo.FirstGame {
     }
 
     
+    /**
+     * Get coordinate the player is attempting to activate.
+     */
     public Point GetActivateTarget() {
       Point res = GridPos;
       if (Facing == Direction.East)
